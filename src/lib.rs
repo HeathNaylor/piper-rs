@@ -646,7 +646,17 @@ impl EncoderOutputs {
                     )))
                 }
             };
-            z_t.view().clone().into_owned()
+            {
+                // z_t is (&Shape, &[f32]); build an owned ndarray from the slice
+                let (shape, buf) = z_t;
+                let dims: Vec<usize> =
+                    shape.dims().iter().map(|d| *d as usize).collect();
+                ndarray::ArrayD::from_shape_vec(
+                    ndarray::IxDyn(&dims),
+                    buf.to_vec(),
+                )
+                .unwrap()
+            }
         };
         let y_mask = {
             let y_mask_t = match values["y_mask"].try_extract_tensor::<f32>() {
