@@ -649,8 +649,7 @@ impl EncoderOutputs {
             {
                 // z_t is (&Shape, &[f32]); build an owned ndarray from the slice
                 let (shape, buf) = z_t;
-                let dims: Vec<usize> =
-                    shape.dims().iter().map(|d| *d as usize).collect();
+                let dims: Vec<usize> = shape.0.iter().map(|d| *d as usize).collect();
                 ndarray::ArrayD::from_shape_vec(
                     ndarray::IxDyn(&dims),
                     buf.to_vec(),
