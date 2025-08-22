@@ -344,7 +344,8 @@ impl VitsModel {
             }
         };
 
-        let audio = Vec::from(outputs.as_slice().unwrap());
+        let (_, data) = outputs;
+        let audio = data.to_vec();
 
         Ok(Audio::new(
             audio.into(),
